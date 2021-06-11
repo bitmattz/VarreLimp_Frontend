@@ -1,0 +1,37 @@
+.productContainer{
+    background-color: #E3E3E3;
+    scroll-behavior: smooth;
+
+    width:auto;
+    height:100%;
+    margin: 30px;
+    max-height: 500px;
+    max-width: 800px;   
+    display: flex;
+    flex-wrap:  wrap;
+    justify-content: center;
+    flex-direction: row;
+    border-radius: 9px;
+    overflow-y: scroll;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+}
+
+.gridContainer{
+    margin:30px;
+}
+
+
+
+@media (max-width: 630px) {
+    .productContainer{
+        width:90%;
+        justify-content: center;
+    }
+
+
+}
+
+
+
+

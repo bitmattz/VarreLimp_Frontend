@@ -1,0 +1,183 @@
+
+body{
+    margin:0px !important;
+    padding: 0px !important;
+    font-size: 62.5%;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.header {
+    width: 100%;
+    position: relative;
+    background-color: #A0FFA0;
+    display: flex;
+    align-items: center;    
+    padding-top: 5px;
+    padding-bottom: 5px; 
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    height: auto;
+}
+
+
+
+
+
+
+
+.logoContainer{
+    flex-grow: 1;
+}
+
+.searchContainer{
+    flex-grow: 2; 
+    display: flex;
+    justify-content:center;
+    font-size: 1.6em;
+
+     
+}
+
+.menuContainer{
+    flex-grow: 0;
+    display: flex;
+    justify-content:flex-end;
+    font-size: 1.6em;
+
+
+
+}
+
+
+
+
+
+
+
+
+
+.logo{
+    width: 100%;
+    height: 100%;
+    max-width: 150px;
+    max-height: 80px;   
+}
+
+
+
+
+
+
+
+
+
+
+
+.searchBarInput{
+    border-top-left-radius: 9px;
+    border-bottom-left-radius: 9px;
+    width: 100%;
+    max-width:326px;
+    font-size: 1em;
+    height:2em;
+    max-height:35px;
+    font-family: Roboto;
+    color: #646464;
+    border-style: none;
+    
+
+}
+.searchBarInput:focus{
+    border-style: none;
+    outline-style: none;
+}
+
+.searchBtn{
+    font-size: 1em;
+    border-top-right-radius: 9px;
+    border-bottom-right-radius: 9px;
+    Width:auto;
+    max-height:searchBarInput height;
+    font-family: Roboto;
+    color: #fff;
+    border-style: none;
+    outline-style: none;
+    font-weight: bold;
+    background-color: #E889DC;
+    transition: filter 0.2s;
+}
+
+.searchBtn:hover{
+    border-style: none;
+    outline-style: none;
+    filter: brightness(0.9);
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.menuA{
+    margin: 10px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 1em;
+
+
+    color: #646464;
+
+}
+
+.menuBtn{
+
+
+
+    color: #646464;
+    font-weight: bold;
+    font-size: 1em;
+    line-height: auto;
+    border-radius: 9px;
+    color: #fff;
+    background: #E889DC;
+    outline-style: none;
+    border-style: none;
+    margin-right: 10px;
+    transition: filter 0.2s;
+}
+
+.menuBtn:hover{
+    filter: brightness(0.9);
+    cursor: pointer;
+}
+
+
+
+@media (max-width: 768px) {
+    .header{
+        font-size:2em;
+    }
+}
+
+@media (max-width: 630px) {
+    .header{
+        flex-direction: column
+    }
+    .menuContainer{
+        margin-top: 10px;
+    }
+}
+

@@ -1,0 +1,340 @@
+.cartContainer{
+    display: flex;
+    margin-top: 1vh;
+
+    flex-direction: row;
+    flex-wrap:  wrap;
+    justify-content: space-between;
+}
+
+.cartBox{
+    max-width: 1000px;
+    width:800px;
+    margin-top: 5px;
+    margin-left:50px;
+    margin-right:50px;
+    margin-bottom: 5px;
+    max-height: 500px;
+    height:500px;
+    scroll-behavior: smooth;
+
+    background-color:#F5F3F3;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+
+    display: flex;
+    flex-wrap:  wrap;
+    justify-content: center;
+    flex-direction: row;
+    overflow-y: scroll;
+
+}
+
+.msgBox{
+    margin-top: 20px;
+    margin-right:50px;
+    margin-left:50px;
+    margin-bottom: 5px;
+    width:300px;
+    height:500px;
+    background-color:#F5F3F3;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+}
+
+
+.textBox{
+    margin-top:15px;
+    width: 100%;
+    height:auto;
+    display: flex;	
+    justify-content: center;
+    background: #F185E5;
+
+}
+
+
+.cartList{
+    scroll-behavior: smooth;
+
+    width:auto;
+    height:400px;   
+    display: flex;
+    flex-wrap:  wrap;
+    justify-content: center;
+    flex-direction: row;
+    overflow-y: scroll;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+}
+
+
+
+.cartItemBox{
+    background-color: #FFFF;
+    width:100%;
+    height:auto;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+    flex-wrap:  wrap;
+
+
+}
+.cartName{
+    font-size: 12px;
+    margin: 10px;
+    color: #646464;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+
+}
+
+.textBoxCart{
+    margin-left:50px;
+    margin-top:50px;
+    margin-right:50px;
+    margin-bottom:10px;
+    width: 800px;
+    height:auto;
+    display: flex;	
+    justify-content: center;
+    border-radius: 13px;    
+
+    background: #F185E5;
+
+}
+
+.textBoxMsg{
+    margin:50px;
+    width: 300px;
+    height:auto;
+    display: flex;	
+    justify-content: center;
+    background: #F185E5;
+    border-radius: 13px;    
+
+
+}
+
+.titles{
+    display: flex;
+    justify-content:space-between;
+    margin-bottom: 1px;
+
+    width: 100%;
+    height:auto;
+    
+
+}
+.cartImg{
+    margin-top: 1px;
+    margin: 1px;
+    max-width: 150px;
+    max-height:80px;
+    width:auto;
+    height:auto;
+
+
+}
+
+.btnDelCart{
+    margin: 5px;
+    
+    font-weight: bold;
+    font-size: 1,5em;
+    line-height: 2em;
+    border-radius: 3px;
+    color: #fff;
+    background: #F95151;
+    outline-style: none;
+    border-style: none;
+    margin-bottom: 5px;
+
+    transition: filter 0.2s;
+}
+
+.btnDelCart:hover{
+    filter: brightness(0.9);
+    cursor: pointer;
+    
+}
+.cartQty{
+    width: 40px;
+    outline-style: none;
+    border-style: none;
+    height:auto;
+    background-color: #E2E2E2;
+
+}
+
+.send{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-direction: column;
+    margin-top: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+.nameBox{
+    margin: 10px;
+    width: 100%;
+    padding: 12px;
+     font-size: 13px;
+     border-width: 0px;
+     border-color: #fcfcfc;
+     background-color: #FFFFFF;
+     color: #5d5d5d;
+     border-style: dashed;
+     border-radius: 13px;
+     box-shadow: -1px 0px 5px rgba(66,66,66,.75);
+     text-shadow: -47px 0px 0px rgba(66,66,66,.0);
+}
+
+.contactBox{
+    margin: 10px;
+    width: 100%;
+    padding: 12px;
+     font-size: 13px;
+     border-width: 0px;
+     border-color: #fcfcfc;
+     background-color: #FFFFFF;
+     color: #5d5d5d;
+     border-style: dashed;
+     border-radius: 13px;
+     box-shadow: -1px 0px 5px rgba(66,66,66,.75);
+     text-shadow: -47px 0px 0px rgba(66,66,66,.0);
+}
+
+.messageBox{
+    
+    margin: 10px;
+    width: 100%;
+    padding: 12px;
+     font-size: 13px;
+     border-width: 0px;
+     border-color: #fcfcfc;
+     font-family: Roboto;
+    font-style: normal;
+     background-color: #FFFFFF;
+     color: #5d5d5d;
+     border-style: none;
+     border-radius: 13px;
+     box-shadow: -1px 0px 5px rgba(66,66,66,.75);
+     text-shadow: -47px 0px 0px rgba(66,66,66,.0);
+}
+
+.btnSendMessage{
+    margin: 10px;
+}
+
+input[type="text"]:focus{
+    outline: none;
+}
+.messageBox:focus{
+    outline: none;
+}
+
+.infoMsg{
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    font-size: 12px;
+    
+    color: #646464;
+    font-family: Roboto;
+    font-style: normal;
+    
+}
+
+.btnMsg {
+	box-shadow: 0px 0px 0px 0px #3dc21b;
+	background-color:#44c767;
+	border-radius:14px;
+	display:inline-block;
+	cursor:pointer;
+	padding:10px 15px;
+    border: none;
+    color:#ffffff;
+
+
+}
+.btnMsg:hover {
+	background-color:#4bdd72;
+}
+.btnMsg:active {
+	position:relative;
+	top:1px;
+}
+button:focus{
+    outline:none;
+    border: none;
+}
+.textBtn{
+    color:#ffffff;
+	font-family:Arial;
+    margin-top: 10px;
+	font-size:17px;
+    text-decoration:none;
+    margin-left: 10px;
+
+
+}
+
+.btnPdf {
+	box-shadow: 0px 0px 0px 0px #3dc21b;
+	background-color:#F185E5;
+	border-radius:14px;
+	display:inline-block;
+	cursor:pointer;
+	padding:10px 15px;
+    border: none;
+    color:#ffffff;
+}
+.btnPdf:hover {
+	background-color:#f896ed;
+}
+.btnPdf:active {
+	position:relative;
+	top:1px;
+}
+
+
+.btnBox{
+    margin-top:20px;
+    display: flex;
+    justify-content:space-between;
+    width:100%;
+    align-items: center;
+}
+
+.IoLogoWhatsapp{
+    position: relative;
+  /* Adjust these values accordingly */
+  top: 1px;
+  left: 1px;
+    font-size:17px;
+
+}
+
+.IoMdDownload{
+    position: relative;
+  /* Adjust these values accordingly */
+  top: 1px;
+  left: 1px;
+    font-size:17px;
+
+}
+
+        
+
+        
+
+
+
