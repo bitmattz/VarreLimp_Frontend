@@ -13,7 +13,6 @@ import { IoLogoWhatsapp,IoMdDownload } from "react-icons/io";
 
 import {Pagination,Alert} from '@material-ui/lab';
 import { GridList,IconButton, Card ,GridListTileBar,GridListTile } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -76,7 +75,6 @@ function App() {
 
   async function GeneratePdf(){
     api.get('GeneratePdf').then(response =>{
-      console.log(response.data);
     });
   }
   async function selectTag(event){
@@ -130,10 +128,8 @@ function App() {
 }
  
 async function delCart(id){
-  console.log(id);
   api.delete(`Cart/${id}`).then(response => {
    setCart(response.data);
-   console.log("mudou");
   });
  
  
