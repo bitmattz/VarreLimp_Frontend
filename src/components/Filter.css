@@ -2,8 +2,8 @@
     background-color: #E3E3E3;
     height:auto;
     width:auto;
-    max-height: 500px;
-    max-width: 300px;
+    max-height: auto;
+    max-width: auto;
     margin:30px;
     float: center;
     display: flex;
@@ -23,3 +23,11 @@
 }
 
 
+@media (max-width: 630px) {
+    .filterContainer{
+        flex-direction:row;
+
+    }
+
+
+}

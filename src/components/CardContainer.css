@@ -9,7 +9,7 @@
     max-width: 800px;   
     display: flex;
     flex-wrap:  wrap;
-    justify-content: center;
+    justify-content: space-between;
     flex-direction: row;
     border-radius: 9px;
     overflow-y: scroll;
@@ -18,9 +18,12 @@
 }
 
 .gridContainer{
-    margin:30px;
-}
+    margin-right: 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-left: 80px;
 
+}
 
 
 @media (max-width: 630px) {

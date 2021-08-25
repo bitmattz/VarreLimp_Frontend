@@ -2,7 +2,9 @@ const path = require('path');
 const fs = require('fs');
 
 
+  
 module.exports = {
+    
     entry: path.resolve(__dirname, 'src', 'index.js'),
     output: {
         path: path.resolve(__dirname, 'public'),

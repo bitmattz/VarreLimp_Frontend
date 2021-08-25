@@ -43,40 +43,32 @@ function App() {
   let txtName = React.createRef();
   let txtContact = React.createRef();
   let txtMsg = React.createRef();
-  const notify = () => toast("Item adicionado ao carrinho!");
-
-  
   useEffect(() => {
-
-   
+  
       api.get('tags').then(response =>{
           setTags(response.data);
           
          });
-         api.get('Cart').then(response =>{
-          setCart(response.data);
-        });
 
-        
-
-
+      
 
     api.post('filter',{
         idTag:'548812210',
         "pagina": 1
   }).then(response =>{
+      
       setProdutos(response.data);
       setPagina(response.data[0].nPaginas);
     });
 
+    
+
   }, []);
 
 
+    
 
-  async function GeneratePdf(){
-    api.get('GeneratePdf').then(response =>{
-    });
-  }
+  
   async function selectTag(event){
       const idT = event.target.value;
       api.post('filter',{
@@ -102,9 +94,7 @@ function App() {
   }
 
   async function getCart(req,res){
-    api.get('Cart').then(res =>{
-      setCart(res.data);
-    });
+    return cart;
     
   }
 
@@ -112,7 +102,17 @@ function App() {
     api.post('Cart',{
         productId: id
     }).then(response => {
-        setCart(response.data);
+        
+      let cartProducts = response.data;
+      let productName = cartProducts.nome;//AQUI
+      let productCode = cartProducts.codigo;//AQUI
+      let productImage = `${id}.jpg`;
+      let item = {id,productCode,productName,productImage,qty:1};
+      let itemIndex = cart.findIndex(aux => aux.id === id);//AQUI
+      if(itemIndex !==-1){
+        let itemDuplicate = {id,productCode,productName,productImage,qty:cart[itemIndex].qty + 1};//AQUI
+        cart[itemIndex] = itemDuplicate;
+        setCart(cartAux);
         toast.success('Item adicionado ao carrinho!', {
           position: "top-right",
           autoClose: 2000,
@@ -122,29 +122,78 @@ function App() {
           draggable: true,
           progress: undefined,
           });
+          console.log(cart);
+
+        //AQUI
+      }
+      else{
+        cartAux.push(item);
+        setCart(cartAux);
+        toast.success('Item adicionado ao carrinho!', {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });//AQUI
+          console.log(cart);
+      }  
+
+
+
+
+
+
+
+
+        
         
     });
 
 }
  
 async function delCart(id){
-  api.delete(`Cart/${id}`).then(response => {
-   setCart(response.data);
-  });
- 
+  let cartIndex = cart.findIndex(item => item.productId === id);
+
+  if(cartIndex < 0){
+    return toast.error('Item não encontrado!', {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      });
+  }
+
+  // let hardCopy = [...cart];
+  // hardCopy = hardCopy.filter((item) => item.id !== id);
+  // setCart(hardCopy);
+  cart.splice(cartIndex, 1);
+  setCart = cart;
+  return cart;
  
  
 }
 
 
 async function editCart(event){
- 
-
-  api.put('Cart',{
+  api.post('Cart',{
    productId: event.target.id,
-   qty: parseInt(event.target.value)
   }).then(response =>{
-   setCart(response.data);
+    let productId = event.target.id;
+    let qty = parseInt(event.target.value);
+    let cartProducts = response.data;
+    let productName = cartProducts.data.retorno.produto.nome;
+    let productCode = cartProducts.data.retorno.produto.codigo;
+    let productImage = `${productId}.jpg`;
+    let item = {productId,productCode,productName,productImage,qty};
+    let itemId = cart.findIndex(item => item.productId === productId);
+    cart[itemId] = item;
+
   });
 }
 
@@ -162,18 +211,55 @@ async function editCart(event){
   });
   }
 
+  function Message(item){
+    let msg = `${item.qty}x: *${item.productCode}* | ${item.productName}%0D%0A`;
+    return msg;
+  }
 
+  async function sendMessage(nome,contato,msg){
+  
+ 
+    let phone = ['5519982510476'];
+    if(cart == null){
+      let message = `
+      Nome: ${nome}%0D%0A
+      Contato: ${contato}%0D%0A %0D%0A
+      ${msg}`;
+      return (`https://api.whatsapp.com/send?phone=${phone}&text=${message}`);
+  
+    }
+    else if(msg == null){
+      let message = `
+      Nome: ${nome}%0D%0A
+      Contato: ${contato}%0D%0A %0D%0A
+      Gostaria de saber quanto ficaria esta cotação:\n ${cart.map(Message)}`;
+      return (`https://api.whatsapp.com/send?phone=${phone}&text=${message}`);
+    }
+    else if(msg != null){
+      let message = `
+      Nome: ${nome}%0D%0A
+      Contato: ${contato}%0D%0A
+      ${msg}%0D%0A
+      Produtos:%0D%0A %0D%0A
+      ${cart.map(Message)}`;
+      return (`https://api.whatsapp.com/send?phone=${phone}&text=${message}`);
+        }
+    
+    
+    
+  }
 
   async function sendMessage(){
-      api.post('Message',{
-        nome: txtName.current.value,
-        contato: txtContact.current.value,
-        msg: txtMsg.current.value
-    }).then(response => {
+      sendMessage(
+        txtName.current.value,
+        txtContact.current.value,
+        txtMsg.current.value
+    ).then(response => {
       window.open(response.data, "_blank");
       txtName.current.value = null,
       txtContact.current.value = null,
       txtMsg.current.value = null
+      setCart = [];
     });
 
   }
@@ -192,7 +278,7 @@ async function editCart(event){
     return (
       
      
-      <div className="App" onChange={getCart}>
+      <div className="App">
          <ToastContainer
             position="top-right"
             autoClose={5000}
@@ -222,80 +308,79 @@ async function editCart(event){
                   <div className="searchContainer">
                           <input type="text" id="searchBar" onChange={addPesquisa}placeholder="Pesquisar..." className="searchBarInput"></input>
                           <button className="searchBtn" onClick={search}>Pesquisar</button>
-                  </div>
+                  </div> 
 
 
 
-                  <div className="menuContainer">
+                   <div className="menuContainer">
                       <a className="menuA" href="#divProducts">Produtos</a>
                       <a className="menuA" href="#divInfo">Contato</a>
                       <button className="menuBtn" href="#divCart"><a className="menuBtn"href="#divCart">Carrinho</a></button>
                       
 
-                  </div>
+                  </div> 
 
         </header>
 
 {/*FIM DO HEADER===================================================================================================================================================================================================== */}
 {/*INÍCIO DOS PRODUTOS=============================================================================================================================================================================================== */}
-
         <div className="products" id="divProducts">
 
-          
-                  <div className="filterContainer" >
-                  {
-                      tags.map(tag =>(
-                          <label className="filterName">
-                          <input
-                              key = {tag.id}
-                              value={tag.id}
-                              name="Tags"
-                              type="radio" 
-                              onChange={selectTag}
-                              />
-                          {tag.nome}
-                          </label>
-                      ))
-                      
-                  }
                   
+        <div className="filterContainer" >
+        {
+            tags.map(tag =>(
+                <label className="filterName">
+                <input
+                    key = {tag.id}
+                    value={tag.id}
+                    name="Tags"
+                    type="radio" 
+                    onChange={selectTag}
+                    />
+                {tag.nome}
+                </label>
+            ))
+            
+        }
 
-              </div>
-              <div className="gridContainer">
-                <GridList  cols={"auto"}className="productContainer" cellHeight={100}>
-                    <GridListTile   style={{ width: '100%',height: 'auto',}}>
-                      <Pagination count={pagina} shape="rounded" onChange={(event,value) => nextPage(actTag,value)}/>
-                    </GridListTile>
+
+        </div>
+        <div className="gridContainer">
+        <GridList  cols={"auto"}className="productContainer" cellHeight={100}>
+          <GridListTile   style={{ width: '100%',height: 'auto',}}>
+            <Pagination count={pagina} shape="rounded" onChange={(event,value) => nextPage(actTag,value)}/>
+          </GridListTile>
+          
+              {produtos.map(produto => (
                     
-                        {produtos.map(produto => (
-                              
-                              <GridListTile  key={produto.id} className="cardBackground" style={{height: 'auto',}}>
-                                <img className="productImg" src={findImage(produto.id).default}  />
-                                <br/>
-                                <a className="productName">{produto.nome}</a>
-                                <br/>
+                    <GridListTile  key={produto.id} className="cardBackground" style={{height: 'auto',}}>
+                      <img className="productImg" src={findImage(produto.id).default}  />
+                      <br/>
+                      <a className="productName">{produto.nome}</a>
+                      <br/>
 
+                      <IconButton onClick={()=> addCart(produto.id,produto.codigo,produto.nome)}>
+                        <AddShoppingCartIcon style={{color: "#E889DC"}} fontSize="large" value={produto.id} />
+                        <a className="text"><b>Adicionar ao carrinho</b></a>
 
-                                <IconButton onClick={()=> addCart(produto.id,produto.nome,produto.codigo)}>
-                                  <AddShoppingCartIcon style={{color: "#E889DC"}} fontSize="large" value={produto.id} />
-                                  <a className="text"><b>Adicionar ao carrinho</b></a>
-
-                                </IconButton>       
-                              </GridListTile >
-  
-                          
-
-                        ))}
-
-
-                    
-                </GridList>
-              </div>
-
+                      </IconButton>       
+                    </GridListTile >
 
                 
-      </div>
 
+              ))}
+
+
+          
+        </GridList>
+        </div>
+
+
+
+        </div>
+
+     
 {/*FIM DOS PRODUTOS=============================================================================================================================================================================================== */}
 {/*INÍCIO DO MAPA E CONTATO=============================================================================================================================================================================================== */}
 
@@ -344,76 +429,74 @@ async function editCart(event){
 
 
       <hr/>
-     
-      <div className="cartContainer" id="divCart">
-      <div className="titles">
-        <div className="textBoxCart">
-          <a className="floatText">Carrinho</a>
-        </div>
+          
+          <div className="cartContainer" id="divCart">
+          <div className="titles">
+            <div className="textBoxCart">
+              <a className="floatText">Carrinho</a>
+            </div>
 
-      </div>
-        
-        <div className="cartBox">
-         
-
-
-         
+          </div>
+            
+            <div className="cartBox">
             {cart.map(item => (
-                          
-                <div className="cartItemBox" >
+        <div className="cartItemBox" >
+        
+          <img className="cartImg" src={findImage(item.productId).default}/>
+          <a className="cartName">{item.productName}</a>
+          <div>
+            <label className="cartName" htmlFor={item.productId}>Quantidade:</label>
+            <input id={item.productId} className="cartQty" alt="Quantidade"type="number" onChange={editCart}value={item.qty}/>
+          </div>
+          
+          <button  className="btnDelCart" id={item.productId} onClick={()=> delCart(item.productId)} >Remover</button>
+          
+        </div>
+              
+              
+    ))}
+
+
+              
                 
-                  <img className="cartImg" src={findImage(item.productId).default}/>
-                  <a className="cartName">{item.productName}</a>
-                  <div>
-                    <label className="cartName" htmlFor={item.productId}>Quantidade:</label>
-                    <input id={item.productId} className="cartQty" alt="Quantidade"type="number" onChange={editCart}value={item.qty}/>
+              
+                
+            </div>
+
+
+            <div className="msgBox">
+              <div className="textBox">
+                <a className="floatText">Enviar Cotação</a>
+              </div>
+            
+              <div className="send">
+              <label className="infoMsg" >Envie sua cotação pelo WhatsApp!</label>
+
+                  
+                  <input ref={txtName} className="nameBox" type="text" placeholder="Nome"/>
+                  <input ref={txtContact}className="contactBox" type="text" placeholder="Telefone ou E-mail"/>
+                  <textarea ref={txtMsg} className="messageBox" rows = "5" cols = "60" placeholder="Mensagem">
+                  </textarea>
+                  <div className="btnBox">
+                    {/* <button className="btnPdf" onClick={GeneratePdf}> <IoMdDownload className="IoMdDownload"/><a className="textBtn">Baixar</a></button> */}
+                    <button className="btnMsg" onClick={sendMessage}> <IoLogoWhatsapp className="IoLogoWhatsapp"/><a className="textBtn">Enviar</a></button>
                   </div>
                   
-                  <button  className="btnDelCart" id={item.productId} onClick={()=> delCart(item.productId)} >Remover</button>
-                  
-          </div>
-
-                      
-                      
-            ))}
-          
-            
-        </div>
-
-
-        <div className="msgBox">
-         <div className="textBox">
-            <a className="floatText">Enviar Cotação</a>
-          </div>
-        
-          <div className="send">
-          <label className="infoMsg" >Envie sua cotação pelo WhatsApp!</label>
-
-              
-              <input ref={txtName} className="nameBox" type="text" placeholder="Nome"/>
-              <input ref={txtContact}className="contactBox" type="text" placeholder="Telefone ou E-mail"/>
-              <textarea ref={txtMsg} className="messageBox" rows = "5" cols = "60" placeholder="Mensagem">
-              </textarea>
-              <div className="btnBox">
-                {/* <button className="btnPdf" onClick={GeneratePdf}> <IoMdDownload className="IoMdDownload"/><a className="textBtn">Baixar</a></button> */}
-                <button className="btnMsg" onClick={sendMessage}> <IoLogoWhatsapp className="IoLogoWhatsapp"/><a className="textBtn">Enviar</a></button>
-              </div>
-              
+                </div>
             </div>
-        </div>
-  
-        <div className="footer">
+      
+            
+
+          </div>
+
+
+{/*FIM DO CARRINHO=============================================================================================================================================================================================== */}
+
+<div className="footer">
           <a className="footerTxt">Varre Limp ® 2021</a>
           <a className="footerTxt" href="https://bitmattz.github.io">Desenvolvido por <b>Matheus Bitencourt</b></a>
 
         </div>
-
-      </div>
- 
-
-{/*FIM DO CARRINHO=============================================================================================================================================================================================== */}
-
-
 
     </div>
 
